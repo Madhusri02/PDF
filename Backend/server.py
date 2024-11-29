@@ -53,11 +53,15 @@ def upload_file():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
 
         file.save(filepath)
-        print("saved")
+        # print("saved")
 
         extracted_text = extract_text(file_name, labeled_sentences)
+        print(type(extracted_text))
+        print("#############################################################")
+        summarised_Content = summarise_content(extracted_text['text'])
+        print(summarised_Content)
         print("looking for")
-        print(extracted_text)
+        # print(extracted_text)
 
         summarised_Content = summarise_content(extracted_text['text'])
         print(summarised_Content)
