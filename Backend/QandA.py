@@ -46,7 +46,7 @@ def questionAndAnswer(url , question):
     def process_query(user_input, url):
         knowledge_base = load_knowledge_base(url)
         user_query = user_input
-        best_match = difflib.get_close_matches(user_query, knowledge_base, n=1, cutoff=0.3)
+        best_match = difflib.get_close_matches(user_query, knowledge_base, n=1, cutoff=0.9)
         if best_match:
             return best_match[0]
 
