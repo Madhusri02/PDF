@@ -30,7 +30,6 @@ def model_init():
     )
 
     tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
-
     generator = pipeline(
     model=model, tokenizer=tokenizer,
     task='text-generation',
