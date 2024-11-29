@@ -50,7 +50,8 @@ def extract_text(file_name):
 
 def generate_tts_with_sentiment(text):
     sentiment = 'neutral'
-    global count
+    global count 
+    count = 0
     tts_engine = init()
     tts_engine.setProperty('rate', 190)
     tts_engine.setProperty('volume', 0.8)
