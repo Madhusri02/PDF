@@ -72,8 +72,9 @@ class _HomePageState extends State<UploadPage> {
           'file': MultipartFile.fromBytes(_fileBytes!, filename: _fileName),
         });
         var response = await dio.post(uploadUrl, data: formData);
+        print(response.data);
         setState(() {
-          _content = response.data["file"];
+          _content = response.data["text"];
         });
 
         if (response.statusCode == 200) {

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:project/components/drawer.dart';
 import 'package:project/components/file.dart';
+import 'package:project/pages/QAPage.dart';
 import 'package:project/pages/UploadPage.dart';
 import 'package:http/http.dart' as http;
 
@@ -52,8 +53,10 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: IconButton(
-              icon: Icon(Icons.account_circle, size: 35,),
-              onPressed: () {},
+              icon: Icon(Icons.chat, size: 35,),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => QAPage()));
+              },
             ),
           ),
         ],
