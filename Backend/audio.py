@@ -26,8 +26,8 @@ def extract_text(file_name):
         cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
         page_content.append(cleaned_text.strip())
         s += cleaned_text.strip() + " "
-    print("content is ", s)
-    print("string is ", s)
+    # print("content is ", s)
+    # print("string is ", s)
 
     splitter = RecursiveCharacterTextSplitter(
         separators=['.', '\n'],
