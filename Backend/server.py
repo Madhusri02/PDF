@@ -9,6 +9,7 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 from QandA import questionAndAnswer
 from summarise import summarise_content
+from extract_imp_wrds import keyword
 
 import json
 
@@ -66,8 +67,10 @@ def upload_file():
         summarised_Content = summarise_content(extracted_text['text'])
         print(summarised_Content)
 
+        extracted_words = keyword(extracted_text)
+
       
-        return jsonify({'text': extracted_text['text'] , "summary" : summarised_Content}), 200
+        return jsonify({'text': extracted_text['text'] , "summary" : summarised_Content , "imp_words" : extracted_words}), 200
     
 @app.route('/article' , methods=['POST'])
 def article():
