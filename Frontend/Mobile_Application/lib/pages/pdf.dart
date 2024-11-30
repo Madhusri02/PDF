@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
+import 'package:project/pages/SummaryPage.dart';
 // import 'package:project/sample/audio.dart';
 
 class Pdf extends StatefulWidget {
-  const Pdf({super.key, required this.text});
+  const Pdf({super.key, required this.text, required this.summary, required this.imp_words});
   final String text;
+  final String summary;
+  final String imp_words;
 
   @override
   State<Pdf> createState() => _PdfState();
@@ -22,15 +25,13 @@ class _PdfState extends State<Pdf> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   bool _isPlaying = false;
   double _volume = 1.0;
-  double _speed = 1.5;
+  double _speed = 2.0;
   final String url = "http://localhost:5000/static/ashif.wav";
   List sentiment = [["happy","happy"]];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // loadContent();
     initTTS();
     getSentimentWords();
     _bottomBarController.stream.listen((opened) {
@@ -38,7 +39,6 @@ class _PdfState extends State<Pdf> {
       setState(() {
         _isOpen = opened;
       });
-      // debugPrint('Bottom bar ${opened ? 'opened' : 'closed'}');
     });
     _audioPlayer.setUrl(url);
     _audioPlayer.playerStateStream.listen((state) {
@@ -48,47 +48,19 @@ class _PdfState extends State<Pdf> {
     });
   }
 
-  // void loadContent() async{
-  //   http.Response res = await http.get(Uri.parse("http://localhost:8000/pdf"));
-  //   var decode = jsonDecode(res.body);
-  //   // print(decode["message"]);
-  //   setState(() {
-  //     content = decode["message"];
-  //   });
-  // }
-
   void initTTS() async{
     await flutterTts.setVoice({"name": "Karen", "locale": "en-AU"});
-    await flutterTts.setSpeechRate(1.0);
-    await flutterTts.setVolume(1.0);
+    await flutterTts.setSpeechRate(_speed);
+    await flutterTts.setVolume(_volume);
     await flutterTts.setPitch(1.0);
   }
 
-  // void setVoice(Map voice) {
-  //   flutterTts.setVoice({"name": voice["name"], "locale": voice["locale"]});
-  // }
-
-  // Widget _speakerSelector() {
-  //   return DropdownButton(
-  //     value: currentVoice,
-  //     items: _voice.map(
-  //           (_voice) => DropdownMenuItem(
-  //             value: _voice,
-  //             child: Text(
-  //               _voice["name"],
-  //             ),
-  //           ),
-  //         )
-  //         .toList(),
-  //     onChanged: (value) {},
-  //   );
-  // }
-
-  void _playPause() {
+  void _playPause() async{
+    _isPlaying = !_isPlaying;
     if (_isPlaying) {
-      _audioPlayer.pause();
+      await flutterTts.speak(widget.text);
     } else {
-      _audioPlayer.play();
+      await flutterTts.stop();
     }
   }
 
@@ -138,8 +110,10 @@ class _PdfState extends State<Pdf> {
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: IconButton(
-              icon: Icon(Icons.account_circle, size: 35,),
-              onPressed: () {},
+              icon: Icon(Icons.summarize_outlined, size: 35,),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SummaryPage(summary: widget.summary,)));
+              },
             ),
           ),
         ],
@@ -216,7 +190,7 @@ class _PdfState extends State<Pdf> {
                     min: 0.5,
                     max: 2.0,
                   ),
-                  SentimentDisplay(sentiment: sentiment,)
+                  SentimentDisplay(sentiment: widget.imp_words,)
                 ],
               ),
             ),
@@ -243,27 +217,22 @@ class _PdfState extends State<Pdf> {
 }
 
 class SentimentDisplay extends StatelessWidget {
-  final List sentiment;
+  final String sentiment;
   SentimentDisplay({super.key, required this.sentiment});
 
-  var data = {
-    'happy': Colors.green,
-    'sad': Colors.red,
-    'neutral': Colors.yellow,
-    'fear': Colors.orange,
-    'angry': Colors.deepOrange,
-  };
+  @override
 
   @override
   Widget build(BuildContext context) {
+    List<String> parts = sentiment.split('--');
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Wrap(
         spacing: 8.0,
         runSpacing: 8.0,
-        children: sentiment.map((tag) => Chip(
-          label: Text(tag[0]),
-          backgroundColor: data[tag[1]],
+        children: parts.map((tag) => Chip(
+          label: Text(tag),
+          backgroundColor: Colors.green,
           labelStyle: TextStyle(color: Colors.black),
         )).toList(),
       ),

@@ -35,6 +35,8 @@ class _HomePageState extends State<UploadPage> {
 
   bool _isUploaded = false;
   String _content = "";
+  String _summary = "";
+  String _impWords = "";
   bool upload = false;
 
   Future<void> _pickFile() async {
@@ -75,6 +77,8 @@ class _HomePageState extends State<UploadPage> {
         print(response.data);
         setState(() {
           _content = response.data["text"];
+          // _summary = response.data["summary"];
+          // _impWords = response.data["imp_words"];
         });
 
         if (response.statusCode == 200) {
@@ -260,6 +264,8 @@ class _HomePageState extends State<UploadPage> {
               MaterialPageRoute(
                 builder: (context) => Pdf(
                   text: _content,
+                  summary: "The Sample Summary",
+                  imp_words: "First--Second--Third--Fourth--Fifth"
                 ),
               ),
             );

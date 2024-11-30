@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/pages/SummaryPage.dart';
 
 class QAPage extends StatefulWidget {
   const QAPage({super.key});
@@ -19,7 +21,7 @@ class _QAPageState extends State<QAPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff1ffde),
+        backgroundColor: Color(0xfff1ffde),
         appBar: AppBar(
           backgroundColor: Color(0xff485551),
           foregroundColor: Colors.white,
@@ -84,15 +86,18 @@ class _QAPageState extends State<QAPage> {
                           text = decode["answer"];
                         });
                       },
-                      child: Text("Submit")),
+                      child: Text("Submit"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff485551),
+                        foregroundColor: Colors.white
+                      ),
+                      ),
                   SizedBox(
                     height: 50,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      text
-                    ),
+                    child: Text(text),
                   ),
                 ],
               ),

@@ -3,7 +3,7 @@ from audio import extract_text
 
 
 def keyword(content):
-    keyword_prompt = """[INST] I have the following document:- [DOCUMENT]Please give me the important lines that are present in this document and separate them with commas.
+    keyword_prompt = """[INST] I have the following document:- [DOCUMENT]Please give me the important lines that are present in this document and separate them with --.
 Make sure you to only return the sentences and say nothing else. For example, don't say:"Here are the keywords present in the document"[/INST]"""
     intro = "and the content from which the important sentences should be from is :"
     result_ip = keyword_prompt + intro + str(content)
@@ -14,6 +14,6 @@ Make sure you to only return the sentences and say nothing else. For example, do
     return model_prediction.outputs[0].data.text.raw
 
 
-extracted_text = extract_text("ml.pdf")
-print(keyword(extracted_text))
+# extracted_text = extract_text("ml.pdf")
+# print(keyword(extracted_text))
                 
